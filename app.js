@@ -5,21 +5,32 @@ const bodyParser = require('body-parser');
 
 const restService = express();
 
+const axios = require('axios');
+
 restService.use(bodyParser.urlencoded({
     extended: true
 }));
 
 var TrendingNews = [];
 function getTrendingNews() {
-    fetch('https://chooseapi.mybluemix.net/api/people', {
+    axios('https://chooseapi.mybluemix.net/api/people', {
      method: 'GET',
      headers: {
        'Accept': 'application/json',
        'Content-Type': 'application/json',
      }})
     .then(function(response) {
-       TrendingNews = response.text()
+
+      console.log('response');
+      console.log(response);
+
+       TrendingNews = response.data()
      })
+
+   // axios.get('https://chooseapi.mybluemix.net/api/people')
+   //    .then(function (res) {
+   //      app.ask(res.body[0].firstname);
+   //    })
 }
 
 restService.use(bodyParser.json());
