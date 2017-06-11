@@ -9,14 +9,29 @@ restService.use(bodyParser.urlencoded({
     extended: true
 }));
 
+var TrendingNews = [];
+function getTrendingNews() {
+    fetch('https://chooseapi.mybluemix.net/api/people', {
+     method: 'GET',
+     headers: {
+       'Accept': 'application/json',
+       'Content-Type': 'application/json',
+     }})
+    .then(function(response) {
+       TrendingNews = response.text()
+     })
+}
+
 restService.use(bodyParser.json());
 
 restService.post('/echo', function(req, res) {
-    var speech = req.body.result && req.body.result.parameters && req.body.result.parameters.echoText ? req.body.result.parameters.echoText : "Seems like some problem. Speak again."
-    return res.json({
-        speech: speech,
-        displayText: speech,
-        source: 'webhook-echo-sample'
+    const speech = req.body.result && req.body.result.parameters && req.body.result.parameters.echoText ? req.body.result.parameters.echoText : "I don't understand Speak again.";
+
+
+   return res.json({
+        speech: TrendingNews.toString(),
+        displayText: TrendingNews.toString(),
+        source: ''
     });
 });
 
