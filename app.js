@@ -20,17 +20,33 @@ function getTrendingNews() {
        'Content-Type': 'application/json',
      }})
     .then(function(response) {
-       TrendingNews = response.data;
+       TrendingNews = (response.data).reverse();
      })
 }
 
-var USERS = ["Tim reports", "Jennifer reports", "Peter reports", "Andy reports", "Michelle reports"];
+function postANew(news_piece){
+  axios("",{
+     method: 'POST',
+     headers: {
+       'Accept': 'application/json',
+       'Content-Type': 'application/json',
+     },
+     data: {
+        text: news_piece,
+        subject: "Events",
+        rank: 0,
+        timestamp: "2017-06-11"
+      }
+   });
+}
+
+var USERS = ["Tim reports ", "Jennifer reports ", "Peter reports ", "Andy reports ", "Michelle reports "];
 
 var index_localNews = 0;
 
 function returnOneLocalNews(){
   index_localNews = index_localNews + 1;
-  return USERS[index_localNews % TrendingNews.length] + TrendingNews[index_localNews % TrendingNews.length].text;
+  return USERS[index_localNews % USERS.length] + TrendingNews[index_localNews % TrendingNews.length].text;
 }
 
 var index_EventNews = 0;
@@ -44,12 +60,12 @@ function getEventNews() {
        'Content-Type': 'application/json',
      }})
     .then(function(response) {
-       EventNews = response.data;
+       EventNews = response.data.reverse();
      })
 }
 function returnOneEventNews(){
   index_EventNews = index_EventNews + 1;
-  return USERS[index_EventNews % EventNews.length] + EventNews[index_EventNews % EventNews.length].text;
+  return USERS[index_EventNews % USERS.length] + EventNews[index_EventNews % EventNews.length].text;
 }
 
 var curent_path;
@@ -62,7 +78,7 @@ restService.post('/echo', function(req, res) {
 
    if (speech==="local news"){
       curent_path = "general"
-      res_str =  "Here is some trending news. " + returnOneLocalNews() + "Say next to continue";
+      res_str =  "Here is some trending news. " + returnOneLocalNews() + " Say next to continue";
     }
     else if (speech==="next" && curent_path === "general"){
       res_str = returnOneLocalNews();
@@ -86,6 +102,20 @@ restService.post('/echo', function(req, res) {
     else if (speech==="repeat" && curent_path === "events"){
       index_EventNews = index_EventNews - 1;
        res_str = returnOneEventNews();
+    }
+
+   else if (speech ==="report a news"){
+      curent_path = "report a news";
+      res_str = "Tell me what you want to report.";
+    }
+    else if (curent_path = "report a news"){
+      curent_path = "confirmation";
+      res_str = "You say " + speech + " Is that all right?"
+      postANew(speech);
+    }
+    else if (curent_path = "confirmation" && speech === "Yes"){
+      curent_path = "";
+      res_str = "It is added";
     }
     else {
       res_str = "I don't understand Speak again.";
