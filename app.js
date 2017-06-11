@@ -25,7 +25,7 @@ function getTrendingNews() {
 }
 
 function postANew(news_piece){
-  axios("",{
+  axios("https://chooseapi.mybluemix.net/api/people",{
      method: 'POST',
      headers: {
        'Accept': 'application/json',
