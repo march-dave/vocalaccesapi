@@ -13,7 +13,7 @@ restService.use(bodyParser.urlencoded({
 
 var TrendingNews = [];
 function getTrendingNews() {
-    axios('https://chooseapi.mybluemix.net/api/people', {
+    axios('https://chooseapi.mybluemix.net/api/people?filter={%22where%22:{%22subject%22:%22Trending%20News%22}}', {
      method: 'GET',
      headers: {
        'Accept': 'application/json',
@@ -24,25 +24,35 @@ function getTrendingNews() {
      })
 }
 
+var USERS = ["Tim reports", "Jennifer reports", "Peter reports", "Andy reports", "Michelle reports"];
+
 var index_localNews = 0;
 
 function returnOneLocalNews(){
   index_localNews = index_localNews + 1;
-  return TrendingNews[index_localNews % TrendingNews.length];
+  return USERS[index_localNews % TrendingNews.length] + TrendingNews[index_localNews % TrendingNews.length].text;
 }
 
 var index_EventNews = 0;
 
 var EventNews = [];
-
+function getEventNews() {
+    axios('https://chooseapi.mybluemix.net/api/people?filter={%22where%22:{%22subject%22:%22Events%22}}', {
+     method: 'GET',
+     headers: {
+       'Accept': 'application/json',
+       'Content-Type': 'application/json',
+     }})
+    .then(function(response) {
+       EventNews = response.data;
+     })
+}
 function returnOneEventNews(){
   index_EventNews = index_EventNews + 1;
-  return EventNews[index_EventNews % EventNews.length];
+  return USERS[index_EventNews % EventNews.length] + EventNews[index_EventNews % EventNews.length].text;
 }
 
-
-
-var curent_subject = '';
+var curent_path;
 
 restService.use(bodyParser.json());
 
@@ -80,7 +90,6 @@ restService.post('/echo', function(req, res) {
     else {
       res_str = "I don't understand Speak again.";
     }
-
 
    return res.json({
         speech: res_str,
