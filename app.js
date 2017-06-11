@@ -39,8 +39,8 @@ restService.post('/echo', function(req, res) {
     const speech = req.body.result && req.body.result.parameters && req.body.result.parameters.echoText ? req.body.result.parameters.echoText : "I don't understand Speak again.";
 
    return res.json({
-        speech: TrendingNews.toString(),
-        displayText: TrendingNews.toString(),
+        speech: TrendingNews[0].firstname,
+        displayText: TrendingNews[0].firstname,
         source: ''
     });
 });
