@@ -104,16 +104,16 @@ restService.post('/echo', function(req, res) {
        res_str = returnOneEventNews();
     }
 
-   else if (speech ==="report a news"){
+   else if (speech === "report a news"){
       curent_path = "report a news";
       res_str = "Tell me what you want to report.";
     }
-    else if (curent_path = "report a news"){
+    else if (curent_path === "report a news"){
       curent_path = "confirmation";
       res_str = "You say " + speech + " Is that all right?"
       postANew(speech);
     }
-    else if (curent_path = "confirmation" && speech === "Yes"){
+    else if (curent_path === "confirmation" && speech === "Yes"){
       curent_path = "";
       res_str = "It is added";
     }
