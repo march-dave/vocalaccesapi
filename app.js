@@ -22,9 +22,9 @@ function getTrendingNews() {
     .then(function(response) {
 
       console.log('response');
-      console.log(response);
+      console.log(response.data[0].firstname);
 
-       TrendingNews = response.data()
+       TrendingNews = response.data;
      })
 
    // axios.get('https://chooseapi.mybluemix.net/api/people')
