@@ -42,14 +42,14 @@ function postANew(news_piece){
 
 var USERS = ["Tim reports ", "Jennifer reports ", "Peter reports ", "Andy reports ", "Michelle reports "];
 
-var index_localNews = 0;
+var index_localNews = -1;
 
 function returnOneLocalNews(){
   index_localNews = index_localNews + 1;
   return USERS[index_localNews % USERS.length] + TrendingNews[index_localNews % TrendingNews.length].text;
 }
 
-var index_EventNews = 0;
+var index_EventNews = -1;
 
 var EventNews = [];
 function getEventNews() {
