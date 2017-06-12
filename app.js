@@ -28,6 +28,7 @@ function postANew(news_piece){
   axios("https://chooseapi.mybluemix.net/api/people",{
      method: 'POST',
      headers: {
+       
        'Accept': 'application/json',
        'Content-Type': 'application/json',
      },
